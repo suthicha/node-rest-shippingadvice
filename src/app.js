@@ -3,7 +3,8 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-const userRouters = require('./api/routes/user');
+const userRouters = require('./api/routes/userRoute');
+const shippingRouters = require('./api/routes/shippingRoute');
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 // Routes handler request.
 app.use('/user', userRouters);
+app.use('/shipping', shippingRouters);
 
 // Handler error catching.
 app.use((req, res, next) => {

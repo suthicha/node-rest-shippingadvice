@@ -8,7 +8,7 @@ exports.find = (userId, password, callback) => {
             const req = new mssql.Request(pool);
                 req.input('LoginName', mssql.VarChar, userId)
                 .input('Password', mssql.VarChar, password)
-                .execute('sp_auth_user').then(result => {
+                .execute('sp_user_auth').then(result => {
                     callback(result.recordset);
                 })
                 .catch(error => {
@@ -27,7 +27,7 @@ exports.select_all = (userId, callback) => {
         .then(() => {
             const req = new mssql.Request(pool);
                 req.input('UserId', mssql.VarChar, userId)
-                .execute('sp_select_users').then(result => {
+                .execute('sp_users_select').then(result => {
                     callback(result.recordset);
                 })
                 .catch(error => {
@@ -46,7 +46,7 @@ exports.select = (userId, callback) => {
         .then(() => {
             const req = new mssql.Request(pool);
                 req.input('UserId', mssql.VarChar, userId)
-                .execute('sp_select_user').then(result => {
+                .execute('sp_user_select').then(result => {
                     callback(result.recordset);
                 })
                 .catch(error => {
@@ -71,7 +71,7 @@ exports.insert = (user, callback) => {
                     .input('LastName', mssql.VarChar, user.LastName)
                     .input('Email', mssql.VarChar, user.Email)
                     .input('PhoneNO', mssql.VarChar, user.PhoneNO)
-                    .execute('sp_insert_user')
+                    .execute('sp_user_insert')
                     .then(result => {
                         callback(result);
                     })
@@ -98,7 +98,7 @@ exports.update = (user, callback) => {
                     .input('PhoneNO', mssql.VarChar, user.PhoneNO)
                     .input('UserGroupID', mssql.Int, user.UserGroupID)
                     .input('UserID', mssql.Int, user.UserID)
-                    .execute('sp_update_user')
+                    .execute('sp_user_update')
                     .then(result => {
                         callback(result);
                     })
@@ -120,7 +120,7 @@ exports.resetPassword = (user, callback) => {
             const req = new mssql.Request(pool);
             req.input('NewPassword', mssql.VarChar, user.NewPassword)
                 .input('UserID', mssql.Int, user.UserID)
-                .execute('sp_reset_password')
+                .execute('sp_user_reset_password')
                 .then(result => {
                     callback(result);
                 })
@@ -141,7 +141,7 @@ exports.delete = (userId, callback) => {
         .then(()=>{
             const req = new mssql.Request(pool);
             req.input('UserID', mssql.Int, userId)
-                .execute('sp_delete_user')
+                .execute('sp_user_delete')
                 .then(result => {
                     callback(result);
                 })
